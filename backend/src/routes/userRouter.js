@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { searchUser, getUser, follow, unfollow, suggestionsUser } = require('../controller/userCtrl')
+const { searchUser, getUser, follow, unfollow, suggestionsUser, updateUser } = require('../controller/userCtrl')
 const auth = require("../middleware/auth")
 
 

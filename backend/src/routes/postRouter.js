@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const { createPost, getPosts, updatePost, getPost, deletePost, likePost, getUserPosts, getSavePosts } = require('../controller/postCtrl')
+const { createPost, getPosts, updatePost, getPost, deletePost, likePost, getUserPosts, getSavePosts, unLikePost, getPostsDicover, savePost, unSavePost } = require('../controller/postCtrl')
 const auth = require('../middleware/auth')
 
 router.route('/posts')
