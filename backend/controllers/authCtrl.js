@@ -2,8 +2,8 @@ const Users = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-
-exports.register=async (req, res) => {
+const authCtrl = {
+    register: async (req, res) => {
         try {
             const { fullname, username, email, password, gender } = req.body
             let newUserName = username.toLowerCase().replace(/ /g, '')
@@ -46,9 +46,8 @@ exports.register=async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-    
-exports.login=async (req, res) => {
+    },
+    login: async (req, res) => {
         try {
             const { email, password } = req.body
 
@@ -81,7 +80,7 @@ exports.login=async (req, res) => {
             return res.status(500).json({msg: err.message})
         }
     },
-exports.logout= async (req, res) => {
+    logout: async (req, res) => {
         try {
             res.clearCookie('refreshtoken', {path: '/api/refresh_token'})
             return res.json({msg: "Logged out!"})
@@ -89,7 +88,7 @@ exports.logout= async (req, res) => {
             return res.status(500).json({msg: err.message})
         }
     },
-exports.generateAccessToken= async (req, res) => {
+    generateAccessToken: async (req, res) => {
         try {
             const rf_token = req.cookies.refreshtoken
             if(!rf_token) return res.status(400).json({msg: "Please login now."})
@@ -114,7 +113,7 @@ exports.generateAccessToken= async (req, res) => {
             return res.status(500).json({msg: err.message})
         }
     }
-
+}
 
 
 const createAccessToken = (payload) => {
@@ -125,3 +124,4 @@ const createRefreshToken = (payload) => {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30d'})
 }
 
+module.exports = authCtrl

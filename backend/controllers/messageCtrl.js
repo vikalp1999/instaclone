@@ -16,8 +16,8 @@ class APIfeatures {
     }
 }
 
-
- exports.createMessage=async (req, res) => {
+const messageCtrl = {
+    createMessage: async (req, res) => {
         try {
             const { sender, recipient, text, media, call } = req.body
 
@@ -46,8 +46,8 @@ class APIfeatures {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getConversations= async (req, res) => {
+    },
+    getConversations: async (req, res) => {
         try {
             const features = new APIfeatures(Conversations.find({
                 recipients: req.user._id
@@ -64,8 +64,8 @@ exports.getConversations= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getMessages=async (req, res) => {
+    },
+    getMessages: async (req, res) => {
         try {
             const features = new APIfeatures(Messages.find({
                 $or: [
@@ -84,16 +84,16 @@ exports.getMessages=async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.deleteMessages=async (req, res) => {
+    },
+    deleteMessages: async (req, res) => {
         try {
             await Messages.findOneAndDelete({_id: req.params.id, sender: req.user._id})
             res.json({msg: 'Delete Success!'})
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.deleteConversation=async (req, res) => {
+    },
+    deleteConversation: async (req, res) => {
         try {
             const newConver = await Conversations.findOneAndDelete({
                 $or: [
@@ -107,7 +107,8 @@ exports.deleteConversation=async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
+    },
+}
 
 
-
+module.exports = messageCtrl

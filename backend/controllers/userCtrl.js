@@ -1,7 +1,7 @@
 const Users = require('../models/userModel')
 
-
-exports.searchUser= async (req, res) => {
+const userCtrl = {
+    searchUser: async (req, res) => {
         try {
             const users = await Users.find({username: {$regex: req.query.username}})
             .limit(10).select("fullname username avatar")
@@ -10,8 +10,8 @@ exports.searchUser= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getUser= async (req, res) => {
+    },
+    getUser: async (req, res) => {
         try {
             const user = await Users.findById(req.params.id).select('-password')
             .populate("followers following", "-password")
@@ -21,8 +21,8 @@ exports.getUser= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.updateUser= async (req, res) => {
+    },
+    updateUser: async (req, res) => {
         try {
             const { avatar, fullname, mobile, address, story, website, gender } = req.body
             if(!fullname) return res.status(400).json({msg: "Please add your full name."})
@@ -37,7 +37,7 @@ exports.updateUser= async (req, res) => {
             return res.status(500).json({msg: err.message})
         }
     },
-exports.follow= async (req, res) => {
+    follow: async (req, res) => {
         try {
             const user = await Users.find({_id: req.params.id, followers: req.user._id})
             if(user.length > 0) return res.status(500).json({msg: "You followed this user."})
@@ -55,8 +55,8 @@ exports.follow= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.unfollow= async (req, res) => {
+    },
+    unfollow: async (req, res) => {
         try {
 
             const newUser = await Users.findOneAndUpdate({_id: req.params.id}, { 
@@ -73,7 +73,7 @@ exports.unfollow= async (req, res) => {
             return res.status(500).json({msg: err.message})
         }
     },
-    exports.suggestionsUser= async (req, res) => {
+    suggestionsUser: async (req, res) => {
         try {
             const newArr = [...req.user.following, req.user._id]
 
@@ -94,5 +94,8 @@ exports.unfollow= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
+    },
 }
 
+
+module.exports = userCtrl

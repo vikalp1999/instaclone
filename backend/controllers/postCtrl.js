@@ -17,8 +17,8 @@ class APIfeatures {
     }
 }
 
-
-  exports.createPost= async (req, res) => {
+const postCtrl = {
+    createPost: async (req, res) => {
         try {
             const { content, images } = req.body
 
@@ -40,8 +40,8 @@ class APIfeatures {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getPosts= async (req, res) => {
+    },
+    getPosts: async (req, res) => {
         try {
             const features =  new APIfeatures(Posts.find({
                 user: [...req.user.following, req.user._id]
@@ -66,8 +66,8 @@ exports.getPosts= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.updatePost= async (req, res) => {
+    },
+    updatePost: async (req, res) => {
         try {
             const { content, images } = req.body
 
@@ -92,8 +92,8 @@ exports.updatePost= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.likePost= async (req, res) => {
+    },
+    likePost: async (req, res) => {
         try {
             const post = await Posts.find({_id: req.params.id, likes: req.user._id})
             if(post.length > 0) return res.status(400).json({msg: "You liked this post."})
@@ -110,7 +110,7 @@ exports.likePost= async (req, res) => {
             return res.status(500).json({msg: err.message})
         }
     },
-exports.unLikePost= async (req, res) => {
+    unLikePost: async (req, res) => {
         try {
 
             const like = await Posts.findOneAndUpdate({_id: req.params.id}, {
@@ -124,8 +124,8 @@ exports.unLikePost= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getUserPosts= async (req, res) => {
+    },
+    getUserPosts: async (req, res) => {
         try {
             const features = new APIfeatures(Posts.find({user: req.params.id}), req.query)
             .paginating()
@@ -139,8 +139,8 @@ exports.getUserPosts= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getPost= async (req, res) => {
+    },
+    getPost: async (req, res) => {
         try {
             const post = await Posts.findById(req.params.id)
             .populate("user likes", "avatar username fullname followers")
@@ -161,8 +161,8 @@ exports.getPost= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getPostsDicover= async (req, res) => {
+    },
+    getPostsDicover: async (req, res) => {
         try {
 
             const newArr = [...req.user.following, req.user._id]
@@ -183,8 +183,8 @@ exports.getPostsDicover= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.deletePost= async (req, res) => {
+    },
+    deletePost: async (req, res) => {
         try {
             const post = await Posts.findOneAndDelete({_id: req.params.id, user: req.user._id})
             await Comments.deleteMany({_id: {$in: post.comments }})
@@ -201,7 +201,7 @@ exports.deletePost= async (req, res) => {
             return res.status(500).json({msg: err.message})
         }
     },
-exports.savePost= async (req, res) => {
+    savePost: async (req, res) => {
         try {
             const user = await Users.find({_id: req.user._id, saved: req.params.id})
             if(user.length > 0) return res.status(400).json({msg: "You saved this post."})
@@ -217,8 +217,8 @@ exports.savePost= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.unSavePost= async (req, res) => {
+    },
+    unSavePost: async (req, res) => {
         try {
             const save = await Users.findOneAndUpdate({_id: req.user._id}, {
                 $pull: {saved: req.params.id}
@@ -231,8 +231,8 @@ exports.unSavePost= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getSavePosts= async (req, res) => {
+    },
+    getSavePosts: async (req, res) => {
         try {
             const features = new APIfeatures(Posts.find({
                 _id: {$in: req.user.saved}
@@ -248,6 +248,7 @@ exports.getSavePosts= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
+    },
+}
 
-
+module.exports = postCtrl

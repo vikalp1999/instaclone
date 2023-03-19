@@ -2,8 +2,8 @@ const Comments = require('../models/commentModel')
 const Posts = require('../models/postModel')
 
 
-
-exports.createComment= async (req, res) => {
+const commentCtrl = {
+    createComment: async (req, res) => {
         try {
             const { postId, content, tag, reply, postUserId } = req.body
 
@@ -30,8 +30,8 @@ exports.createComment= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.updateComment= async (req, res) => {
+    },
+    updateComment: async (req, res) => {
         try {
             const { content } = req.body
             
@@ -44,9 +44,8 @@ exports.updateComment= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-}
-
-exports.likeComment= async (req, res) => {
+    },
+    likeComment: async (req, res) => {
         try {
             const comment = await Comments.find({_id: req.params.id, likes: req.user._id})
             if(comment.length > 0) return res.status(400).json({msg: "You liked this post."})
@@ -60,8 +59,8 @@ exports.likeComment= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.unLikeComment= async (req, res) => {
+    },
+    unLikeComment: async (req, res) => {
         try {
 
             await Comments.findOneAndUpdate({_id: req.params.id}, {
@@ -73,8 +72,8 @@ exports.unLikeComment= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.deleteComment=async (req, res) => {
+    },
+    deleteComment: async (req, res) => {
         try {
             const comment = await Comments.findOneAndDelete({
                 _id: req.params.id,
@@ -93,7 +92,8 @@ exports.deleteComment=async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
+    },
 }
 
 
-
+module.exports = commentCtrl

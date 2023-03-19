@@ -1,8 +1,8 @@
 const Notifies = require('../models/notifyModel')
 
 
-
-exports.createNotify= async (req, res) => {
+const notifyCtrl = {
+    createNotify: async (req, res) => {
         try {
             const { id, recipients, url, text, content, image } = req.body
 
@@ -17,8 +17,8 @@ exports.createNotify= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.removeNotify=async (req, res) => {
+    },
+    removeNotify: async (req, res) => {
         try {
             const notify = await Notifies.findOneAndDelete({
                 id: req.params.id, url: req.query.url
@@ -28,8 +28,8 @@ exports.removeNotify=async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.getNotifies=async (req, res) => {
+    },
+    getNotifies: async (req, res) => {
         try {
             const notifies = await Notifies.find({recipients: req.user._id})
             .sort('-createdAt').populate('user', 'avatar username')
@@ -38,8 +38,8 @@ exports.getNotifies=async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.isReadNotify= async (req, res) => {
+    },
+    isReadNotify: async (req, res) => {
         try {
             const notifies = await Notifies.findOneAndUpdate({_id: req.params.id}, {
                 isRead: true
@@ -49,8 +49,8 @@ exports.isReadNotify= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
-exports.deleteAllNotifies= async (req, res) => {
+    },
+    deleteAllNotifies: async (req, res) => {
         try {
             const notifies = await Notifies.deleteMany({recipients: req.user._id})
             
@@ -58,7 +58,8 @@ exports.deleteAllNotifies= async (req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
+    },
 }
 
 
-
+module.exports = notifyCtrl
