@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../redux/actions/authAction'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -13,7 +13,7 @@ const Login = () => {
 
     const { auth } = useSelector(state => state)
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
 
     useEffect(() => {
         if(auth.token) history.push("/")
