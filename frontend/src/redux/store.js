@@ -4,19 +4,19 @@ import thunk from 'redux-thunk'
 
 import rootReducer from './reducers/index'
 
-import { composeWithDevTools } from '@redux-devtools/extension'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 const store = legacy_createStore(
     rootReducer,
     composeWithDevTools(applyMiddleware(thunk))
 )
 
-// const DataProvider = ({children}) => {
-//     return(
-//         <Provider store={store}>
-//             {children}
-//         </Provider>
-//     )
-// }
+const DataProvider = ({children}) => {
+    return(
+        <Provider store={store}>
+            {children}
+        </Provider>
+    )
+}
 
-export default store
+export default DataProvider

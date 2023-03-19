@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 import PageRender from './customRouter/PageRender'
 import PrivateRouter from './customRouter/PrivateRouter'
@@ -69,26 +69,26 @@ function App() {
 
 
   return (
-    <Routes>
+    <Router>
       <Alert />
+
       <input type="checkbox" id="theme" />
       <div className={`App ${(status || modal) && 'mode'}`}>
         <div className="main">
           {auth.token && <Header />}
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
-          {call && <CallModal />} 
-       
+          {call && <CallModal />}
           
-          <Route  path="/" element={auth.token ? <Home/> : <Login/>} ></Route>
-          <Route  path="/register" element={Register} ></Route>
+          <Route exact path="/" component={auth.token ? Home : Login} />
+          <Route exact path="/register" component={Register} />
 
-          {/* <PrivateRouter  path="/:page" element={PageRender} />
-          <PrivateRouter path="/:page/:id" element={PageRender} /> */}
+          <PrivateRouter exact path="/:page" component={PageRender} />
+          <PrivateRouter exact path="/:page/:id" component={PageRender} />
           
-         </div>
-      </div> 
-    </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 

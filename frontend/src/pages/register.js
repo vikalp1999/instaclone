@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import { register } from '../redux/actions/authAction'
 
 const Register = () => {
     const { auth, alert } = useSelector(state => state)
     const dispatch = useDispatch()
-    const history = useNavigate()
+    const history = useHistory()
 
     const initialState = { 
         fullname: '', username: '', email: '', password: '', cf_password: '', gender: 'male'
