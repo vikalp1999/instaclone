@@ -28,3 +28,5 @@ insta is a social media platfrom where you can connect with other people and cha
 <li>Use 'npm start' in the backend folder to run frontend on localhost 8080</li>
 
 </ol>
+
+## Developer:Vikalp Shandialya##
