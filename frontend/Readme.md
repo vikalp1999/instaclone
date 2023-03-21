@@ -29,4 +29,4 @@ insta is a social media platfrom where you can connect with other people and cha
 
 </ol>
 
-## Developer:Vikalp Shandialya
+## Developer: Vikalp Shandialya
